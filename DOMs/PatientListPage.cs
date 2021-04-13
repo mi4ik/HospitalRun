@@ -42,16 +42,9 @@ namespace HospitalRun
             return this;
         }
 
-        public IPage SelectMenuSubItem(string value)
+        public void SelectMenuSubItem(string value)
         {
             SelectElementByName(primaryMenu, menuSubItem, value);
-
-            switch (value)
-            {
-                case "New Request": return PageBase<NewRequest>.Go;
-            }
-
-            return this;
         }
 
         public IWebElement[] getMenuItems()

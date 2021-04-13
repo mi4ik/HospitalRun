@@ -7,6 +7,12 @@ namespace HospitalRun
     [AllureNUnit]
     public class TestBase
     {
+        [OneTimeSetUp]
+        public void OneTimeSetup()
+        {
+            Allure.Commons.AllureLifecycle.Instance.CleanupResultDirectory();
+        }
+
         [SetUp]
         public void Setup()
         {

@@ -1,7 +1,9 @@
-﻿using NUnit.Allure.Core;
+﻿using HospitalRun.DOMs;
+using NUnit.Allure.Core;
 using NUnit.Framework;
 using System;
 using System.Linq;
+using System.Threading;
 
 namespace HospitalRun
 {
@@ -39,7 +41,6 @@ namespace HospitalRun
         [Order(3)]
         public void UserIsAbleToLogOut()
         {
-            Assert.Ignore();
             var _page =
                 PageBase<HomePage>.Navigate("http://demo.hospitalrun.io/").
                 Login("hr.doctor@hospitalrun.io", "HRt3st12").
@@ -52,8 +53,6 @@ namespace HospitalRun
         [Order(4)]
         public void UserIsAbleToRequestMedication()
         {
-            Assert.Ignore();
-
             var _page =
                 PageBase<HomePage>.Navigate("http://demo.hospitalrun.io/").
                 Login("hr.doctor@hospitalrun.io", "HRt3st12").
@@ -68,35 +67,30 @@ namespace HospitalRun
 
             _page.SelectMenuSubItem("New Request");
 
-            using (var req = _page.PatientRequest)
-            {
-                var r = new Random();
+            var req = PageBase<NewRequest>.Go;
+            var r = new Random();
 
-                req.Patient = "Test Patient -";
-                req.SelectPatientType("Test Patient - P00201");
-                req.Medication = "Pramoxine ";
-                req.SelectMedicationType("Pramoxine");
-                req.SelectAvailableVisit(r.Next(1, 10));
-                req.Prescription = "Testing prescription";
-                req.Quantity = r.Next(1, 5).ToString();
-                req.Refills = r.Next(5, 10).ToString();
-                req.SetPerscriptionDate(DateTime.Now.AddDays(-1));
-                req.AddRequest();
+            req.Patient = "test patient";
+            req.SelectPatientType("Test Patient - P00201");
 
-                //Assert.True(_page.IsModalDialogVisible);
+            req.Medication = "pramoxine";
+            req.SelectMedicationType("Pramoxine");
 
-                var dialog = req.PopupDialog;
-                Assert.True(WebDriver.WaitForAlert(true));
+            req.SelectAvailableVisit(1);
+            req.Prescription = "Testing prescription";
+            req.Quantity = r.Next(1, 5).ToString();
+            req.Refills = r.Next(5, 10).ToString();
+            req.SetPerscriptionDate(DateTime.Now.AddDays(-1));
+            req.AddRequest();
 
-                Assert.That(dialog.DialogHeader.Text, Is.EqualTo("Medication Request Saved"));                
-                //Assert.That(dialog.DialogHeader.Text, Is.EqualTo("Warning!!!!"));
-                Assert.True(dialog.OkBtn.Displayed);
-                Assert.True(dialog.CloseIcon.Displayed);
+            var dialog = req.PopupDialog;
+            
+            Assert.That(dialog.DialogHeader.Text, Is.EqualTo("Medication Request Saved"));                
+            Assert.True(dialog.OkBtn.Displayed);
+            Assert.True(dialog.CloseIcon.Displayed);
 
-                dialog.OkBtn.Click();
-                Assert.False(WebDriver.WaitForAlert(true));
-            }
-
+            dialog.OkBtn.Click();
+            
             Assert.That(_page.getViewTitle, Is.EqualTo("New Medication Request"));
         }
 

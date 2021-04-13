@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.ObjectModel;
@@ -63,6 +64,11 @@ namespace HospitalRun
         public void SendKeys(string text)
         {
             webElement.SendKeys(text);
+        }
+
+        public void Type(string text)
+        {
+            new Actions(_driver).SendKeys(webElement, Keys.End + text).Build().Perform();
         }
 
         public void Submit()

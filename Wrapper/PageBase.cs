@@ -33,20 +33,5 @@ namespace HospitalRun
             return new WebElement(by);
         }
 
-        public bool Exists(By by)
-        {
-            bool exists = false;
-            try
-            {
-                _(by);
-                exists = true;
-            }
-            catch (Exception)
-            {
-                exists = false;
-            }
-
-            return exists;
-        }
     }
 }

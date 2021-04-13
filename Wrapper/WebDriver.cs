@@ -1,7 +1,6 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace HospitalRun
@@ -21,7 +20,7 @@ namespace HospitalRun
         public static void Quit()
         {
             if (_driver != null)
-                _driver.Quit();
+                _driver.Dispose();
         }
 
         public static IWebDriver UseBrowser(BrowserType browser)
@@ -45,32 +44,6 @@ namespace HospitalRun
                 default:
                     return null;
             }
-        }
-
-        public static bool WaitForAlert(bool accept)
-        {
-            WebDriverWait wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(3));
-            bool _catch = false;
-
-            try
-            {
-                wait.Until(ExpectedConditions.AlertIsPresent());
-                if (accept)
-                {
-                    _driver.SwitchTo().Alert().Accept();
-                    _catch = true;
-                }
-                else
-                {
-                    _driver.SwitchTo().Alert().Dismiss();
-                }
-            }
-            catch (WebDriverTimeoutException)
-            {
-                _catch = false;
-            }
-
-            return _catch;
         }
     }
 }

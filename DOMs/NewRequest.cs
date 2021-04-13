@@ -1,5 +1,4 @@
 ﻿using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
 using System;
 using System.Linq;
 
@@ -7,8 +6,8 @@ namespace HospitalRun.DOMs
 {
     class NewRequest: PageBase<NewRequest>, IPage, IDisposable
     {
-        private By patient = By.CssSelector("input[id|=patientTypeAhead]");
-        private By medication = By.CssSelector("[id|=inventoryItemTypeAhead]");
+        private By patientInput = By.CssSelector("input[id|=patientTypeAhead]");
+        private By medicationInput = By.CssSelector("[id|=inventoryItemTypeAhead]");
         private By prescription = By.CssSelector("[id|=prescription]");
         private By visit = By.CssSelector("[id|=visit]");
         private By visitOption = By.CssSelector("option");
@@ -16,8 +15,9 @@ namespace HospitalRun.DOMs
         private By quantity = By.CssSelector("[id|=quantity]");
         private By refills = By.CssSelector("[id|=refills]");
 
-        private By patientTypeSet = By.CssSelector(".tt-dataset");
-        private By patientType = By.CssSelector(".tt-suggestion");
+        private By patientTypeSet = By.CssSelector(".test-patient-input");
+        private By medicationTypeSet = By.CssSelector(".test-medication-input");
+        private By suggestion = By.CssSelector(".tt-suggestion");
 
         private By addButton = By.CssSelector(".panel-footer .btn-primary");
 
@@ -25,11 +25,11 @@ namespace HospitalRun.DOMs
         {
             get
             {
-                return _(patient).Text;
+                return _(patientInput).Text;
             }
             set
             {
-                _(patient).SendKeys(value);
+                _(patientInput).Type(value);
             }
         }
 
@@ -37,11 +37,11 @@ namespace HospitalRun.DOMs
         {
             get
             {
-                return _(medication).Text;
+                return _(medicationInput).Text;
             }
             set
             {
-                _(medication).SendKeys(value);
+                _(medicationInput).Type(value);
             }
         }
 
@@ -89,16 +89,16 @@ namespace HospitalRun.DOMs
 
         public void SelectPatientType(string value)
         {
-            var patientList = _(patientTypeSet).FindElements(patientType).ToArray();
+            var patientList = _(patientTypeSet).FindElements(suggestion).ToArray();
 
             patientList.First(x => x.Text.Contains(value)).Click();
         }
 
         public void SelectMedicationType(string value)
         {
-            var patientList = _(patientTypeSet).FindElements(patientType).ToArray();
+            var medicationList = _(medicationTypeSet).FindElements(suggestion).ToArray();
 
-            patientList.First(x => x.Text.Contains(value)).Click();
+            medicationList.First(x => x.Text.Contains(value)).Click();
         }
 
         public void SelectAvailableVisit(int value)
@@ -106,7 +106,7 @@ namespace HospitalRun.DOMs
             _(visit).Click();
             var visitList = _(visit).FindElements(visitOption);
 
-            visitList.First().Click();
+            visitList[value].Click();
         }
 
         public void SetPerscriptionDate(DateTime value)

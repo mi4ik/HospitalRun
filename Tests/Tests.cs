@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace HospitalRun
 {
-    [AllureNUnit]
+    //[AllureNUnit]
     public class Tests : TestBase
     {
 
@@ -53,6 +53,8 @@ namespace HospitalRun
         [Order(4)]
         public void UserIsAbleToRequestMedication()
         {
+            Assert.Ignore();
+
             var _page =
                 PageBase<HomePage>.Navigate("http://demo.hospitalrun.io/").
                 Login("hr.doctor@hospitalrun.io", "HRt3st12").

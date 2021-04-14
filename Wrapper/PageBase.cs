@@ -24,6 +24,7 @@ namespace HospitalRun
         {
             get
             {
+
                 return (T)Activator.CreateInstance(typeof(T));
             }
         }

@@ -1,5 +1,4 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium;
+﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Firefox;
 using System;
@@ -30,10 +29,7 @@ namespace HospitalRun
             {
                 case BrowserType.Chrome:
                     {
-                        var chromePath = TestContext.Parameters.Get("Chrome", "/chromedriver.exe");
-
-                        //_driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
-                        _driver = new ChromeDriver(chromePath);
+                        _driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
                         _driver.Manage().Window.Maximize();
                         return _driver;
                     }

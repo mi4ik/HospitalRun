@@ -29,7 +29,8 @@ namespace HospitalRun
             {
                 case BrowserType.Chrome:
                     {
-                        _driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
+                        //_driver = new ChromeDriver(AppDomain.CurrentDomain.BaseDirectory);
+                        _driver = new ChromeDriver(Environment.CurrentDirectory);
                         _driver.Manage().Window.Maximize();
                         return _driver;
                     }
